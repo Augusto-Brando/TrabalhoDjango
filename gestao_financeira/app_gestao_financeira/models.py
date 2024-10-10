@@ -71,8 +71,8 @@ class DespesasExtras(models.Model):
     ]
     usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     tipo = models.CharField(_('Tipo de Despesa'), max_length=50, choices=TIPOS, default='Outros')
-    valor = models.DecimalField(_('Valor'), max_digits=10, decimal_places=2, null=True, blank=True)
-    data = models.DateField(_('Data'))
+    valor = models.DecimalField(_('Valor'), max_digits=10, decimal_places=2)
+    data = models.DateField(_('Data'),null=True, blank=True)
 
     def __str__(self):
         return f'Despesa Extra: {self.get_tipo_display()} - Valor: {self.valor}'
@@ -94,9 +94,9 @@ class Investimentos(models.Model):
     ('Outros', _('Outros')),
 ]
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo = models.CharField(_('Tipo de Investimento'), max_length=50, choices=TIPOSINVESTIMENTOS, default='Outros', null=True, blank=True)
-    valor_investido = models.DecimalField(_('Valor Investido'), max_digits=15, decimal_places=2, null=True, blank=True)
-    rentabilidade = models.DecimalField(_('Rentabilidade'), max_digits=5, decimal_places=2, null=True, blank=True)
+    tipo = models.CharField(_('Tipo de Investimento'), max_length=50, choices=TIPOSINVESTIMENTOS, default='Outros')
+    valor_investido = models.DecimalField(_('Valor Investido'), max_digits=15, decimal_places=2)
+    rentabilidade = models.DecimalField(_('Rentabilidade'), max_digits=5, decimal_places=2)
     investimentos_fisicos = models.TextField(_('Investimentos Físicos'), null=True, blank=True)
 
     def __str__(self):
