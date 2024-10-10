@@ -29,12 +29,19 @@ class Usuario(models.Model):
 
 # Perfil de Usuário
 class PerfilUsuario(models.Model):
+    PERFISINVESTIMENTOS = [
+    ('Conservador', _('Conservador')),
+    ('Moderado', _('Moderado')),
+    ('Arrojado', _('Arrojado')),
+    ('Agressivo', _('Agressivo')),
+    ('Balanceado', _('Balanceado')),
+]
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     patrimonio_liquido = models.DecimalField(_('Patrimônio Líquido'), max_digits=15, decimal_places=2)
     salario = models.DecimalField(_('Salário'), max_digits=10, decimal_places=2)
     dividas = models.DecimalField(_('Dívidas'), max_digits=15, decimal_places=2)
     metas = models.TextField(_('Metas'), null=True, blank=True)
-    perfil = models.CharField(_('Perfil'), max_length=50)
+    perfil = models.CharField(_('Perfil'),choices=PERFISINVESTIMENTOS, max_length=50)
     imagem = StdImageField(_('Imagem'), upload_to=get_file_path, null=True, blank=True, variations={'thumb': {'width': 480, 'height': 480, 'crop': True}})
 
     def __str__(self):
