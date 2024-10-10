@@ -69,7 +69,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'gestao_financeira',
+        'NAME': 'app_gestao_financeira',
 
         'USER': 'postgres',
 
