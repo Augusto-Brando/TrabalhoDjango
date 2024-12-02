@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -39,7 +39,6 @@ def cadastro(request):
 
         return HttpResponse('Usuário cadastrado com sucesso!')
 
-
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
@@ -52,7 +51,10 @@ def login(request):
 
         if user:
             login_django(request, user)
-            return HttpResponse('Login realizado com sucesso!')
+            return redirect('gestaoFinanceira')  # Redirecionamento correto para a página de gestão financeira
         else:
             # Passa a mensagem de erro para o template
             return render(request, 'login.html', {'error': 'CPF ou senha inválidos.'})
+        
+def gestaoFinanceira(request):
+    return render(request, 'gestaoFinanceira.html')

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            background-color: #f3f4f6;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+            background-color: #f3f4f6;
+        }
+
+        .underline {
+            background-color: #2575fc;
+            height: 2px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        section.cards {
+            max-width: 1200px;
+            margin: auto;
+            padding-top: 85px;
+        }
+
+        .custoFixo {
+            border: 2px solid #2575fc;
+        }
+
+        .custoEntradaSaida {
+            border: 2px solid #2575fc;
+            margin-top: 30px;
+        }
+
+        section.investimentos {
+            max-width: 1200px;
+            margin: auto;
+            padding-top: 85px;
+        }
+        .cardsInvestimentos {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid">
+            <!-- Logo ou nome -->
+            <a class="navbar-brand fw-bold">GestãoFinanceira</a>
+
+            <!-- Toggle button para telas pequenas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <!-- Botões de Login e Logout -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="/login">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="underline"></div>
+    <section class="cards">
+        <div class="custoFixo">
+            <h3>Seus custos fixos:</h3>
+            <div class="custoFixoValue">Confira</div>
+        </div>
+        <div class="custoEntradaSaida">
+            <h3>Entradas e Saidas:</h3>
+            <div class="custoFixoValue">Confira</div>
+        </div>
+    </section>
+    <section class="investimentos">
+        <div class="cardsInvestimentos">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

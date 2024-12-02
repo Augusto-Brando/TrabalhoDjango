@@ -1,95 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Login</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background-color: #f3f4f6;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+            background-color: #f3f4f6;
+        }
+
+        .underline {
+            background-color: #2575fc;
+            height: 2px;
+            width: 100%;
+            margin-top: 5px;
         }
 
         .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             width: 100%;
             max-width: 400px;
+            text-align: center;
+            margin-top: 85px;
         }
 
         h1 {
-            text-align: center;
-            color: #333333;
-            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
+        .input-group {
+            position: relative;
+            margin-bottom: 40px;
         }
 
-        label {
-            margin-bottom: 5px;
-            color: #555555;
+        .input-group input {
+            width: 100%;
+            padding: 12px 40px 12px 40px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            color: #333;
+            transition: border-color 0.3s ease;
         }
 
-        input {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            font-size: 14px;
+        .input-group input:focus {
+            border-bottom-color: #2575fc;
+            color: #000;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2575fc;
+            font-size: 18px;
         }
 
         button {
-            background-color: #4caf50;
+            background: #2575fc;
             color: white;
-            padding: 10px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
+            padding: 12px 25px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
-            background-color: #45a049;
+            background: #1a5ab7;
         }
 
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-bottom: 15px;
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .forgot-password {
             font-size: 14px;
+            color: #888;
+            text-decoration: none;
+            display: block;
+            margin-top: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #2575fc;
         }
     </style>
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo ou nome -->
+            <a class="navbar-brand fw-bold" href="#">GestãoFinanceira</a>
+
+            <!-- Toggle button para telas pequenas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <!-- Botões de Login e Logout -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary me-2" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="/cadastro">Cadastro</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="underline"></div>
     <div class="container">
-        <h1>Login</h1>
+        <h1>Área de Login</h1>
 
         <!-- Exibe mensagem de erro, se houver -->
         {% if error %}
-            <div class="error-message">{{ error }}</div>
+        <div class="error-message">{{ error }}</div>
         {% endif %}
 
-        <form method="post">
+        <form method="post" autocomplete="off">
             {% csrf_token %}
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
 
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+            <div class="input-group">
+                <input type="text" id="cpf" name="cpf" value="{{ request.POST.cpf }}" placeholder="Digite seu CPF"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+            </div>
 
             <button type="submit">Entrar</button>
         </form>
+
+        <a class="forgot-password">Gestão Financeira</a>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
