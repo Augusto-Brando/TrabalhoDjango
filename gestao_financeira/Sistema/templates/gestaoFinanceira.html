@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -26,7 +27,8 @@
             margin-top: 5px;
         }
 
-        section.cards, section.investimentos {
+        section.cards,
+        section.investimentos {
             max-width: 1200px;
             margin: auto;
             padding-top: 85px;
@@ -41,13 +43,15 @@
             width: 18rem;
         }
 
-        .custoFixo, .custoEntradaSaida {
+        .custoFixo,
+        .custoEntradaSaida {
             border: 2px solid #2575fc;
             padding: 15px;
             margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -59,7 +63,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="btn btn-danger" href="#">Logout</a>
+                        <a class="btn btn-danger" href="{% url 'cadastro' %}">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -67,15 +71,79 @@
     </nav>
     <div class="underline"></div>
     <section class="cards">
+        <!-- Card de Custos Fixos -->
         <div class="custoFixo">
-            <h3>Seus custos fixos:</h3>
+            <h3>Seus custos fixos: R$ {{ total_custos_fixos }}</h3>
             <a href="{% url 'adicionar_custo_fixo' %}" class="btn btn-primary">Adicionar Custo Fixo</a>
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalCustosFixos">Ver
+                Detalhes</button>
         </div>
+        <!-- Card de Despesas -->
         <div class="custoEntradaSaida">
-            <h3>Relatório de Despesas:</h3>
+            <h3>Relatório de Despesas: R$ {{ total_despesas }}</h3>
             <a href="{% url 'adicionar_despesa' %}" class="btn btn-primary">Adicionar Despesa</a>
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalDespesas">Ver
+                Detalhes</button>
         </div>
     </section>
+    <!-- Modal para Custos Fixos -->
+    <div class="modal fade" id="modalCustosFixos" tabindex="-1" aria-labelledby="modalCustosFixosLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCustosFixosLabel">Custos Fixos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if custos_fixos %}
+                    <ul class="list-group">
+                        {% for custo in custos_fixos %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ custo.descricao }} - R$ {{ custo.valor }}</span>
+                            <form method="POST" action="{% url 'remover_custo_fixo' custo.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">Nenhum custo fixo cadastrado.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Despesas -->
+    <div class="modal fade" id="modalDespesas" tabindex="-1" aria-labelledby="modalDespesasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDespesasLabel">Despesas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if despesas %}
+                    <ul class="list-group">
+                        {% for despesa in despesas %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ despesa.descricao }} - R$ {{ despesa.valor }}</span>
+                            <form method="POST" action="{% url 'remover_despesa' despesa.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">Nenhuma despesa cadastrada.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="investimentos">
         <h3>Investimentos Disponíveis:</h3>
         <div class="cardsInvestimentos">
@@ -90,4 +158,5 @@
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

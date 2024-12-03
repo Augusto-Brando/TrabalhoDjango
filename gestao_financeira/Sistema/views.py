@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as login_django
 import re
 from .models import CustoFixo, Despesa, Investimento
+from django.db.models import Sum
 
 def cadastro(request):
     if request.method == 'GET':
@@ -57,15 +58,22 @@ def login(request):
             # Passa a mensagem de erro para o template
             return render(request, 'login.html', {'error': 'CPF ou senha inválidos.'})
         
+
+
 @login_required
 def gestaoFinanceira(request):
     custos_fixos = CustoFixo.objects.filter(usuario=request.user)
     despesas = Despesa.objects.filter(usuario=request.user)
-    investimentos = Investimento.objects.all()
+
+    # Cálculos dos totais
+    total_custos_fixos = sum(c.valor for c in custos_fixos)
+    total_despesas = sum(d.valor for d in despesas)
+
     return render(request, 'gestaoFinanceira.html', {
         'custos_fixos': custos_fixos,
         'despesas': despesas,
-        'investimentos': investimentos,
+        'total_custos_fixos': total_custos_fixos,
+        'total_despesas': total_despesas,
     })
 
 @login_required
@@ -85,3 +93,15 @@ def adicionar_despesa(request):
         Despesa.objects.create(usuario=request.user, descricao=descricao, valor=valor)
         return redirect('gestaoFinanceira')
     return render(request, 'adicionar_despesa.html')
+
+@login_required
+def remover_custo_fixo(request, custo_id):
+    custo_fixo = get_object_or_404(CustoFixo, id=custo_id, usuario=request.user)
+    custo_fixo.delete()
+    return redirect('gestaoFinanceira')
+
+@login_required
+def remover_despesa(request, despesa_id):
+    despesa = get_object_or_404(Despesa, id=despesa_id, usuario=request.user)
+    despesa.delete()
+    return redirect('gestaoFinanceira')
