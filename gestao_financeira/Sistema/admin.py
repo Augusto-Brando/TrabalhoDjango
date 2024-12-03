@@ -13,5 +13,5 @@ class DespesaAdmin(admin.ModelAdmin):
 
 @admin.register(Investimento)
 class InvestimentoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'valor')
-    search_fields = ('titulo',)
+    list_display = ('nome', 'valor')
+    search_fields = ('nome',)

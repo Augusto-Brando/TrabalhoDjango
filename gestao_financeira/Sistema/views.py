@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login as login_django
 import re
 from .models import CustoFixo, Despesa, Investimento
 from django.db.models import Sum
+from decimal import Decimal
 
 def cadastro(request):
     if request.method == 'GET':
@@ -59,11 +60,11 @@ def login(request):
             return render(request, 'login.html', {'error': 'CPF ou senha inválidos.'})
         
 
-
 @login_required
 def gestaoFinanceira(request):
     custos_fixos = CustoFixo.objects.filter(usuario=request.user)
     despesas = Despesa.objects.filter(usuario=request.user)
+    investimentos = Investimento.objects.filter(usuario=request.user).order_by('id')  # Adicionando a busca dos investimentos
 
     # Cálculos dos totais
     total_custos_fixos = sum(c.valor for c in custos_fixos)
@@ -74,6 +75,7 @@ def gestaoFinanceira(request):
         'despesas': despesas,
         'total_custos_fixos': total_custos_fixos,
         'total_despesas': total_despesas,
+        'investimentos': investimentos  # Passando os investimentos para o template
     })
 
 @login_required
@@ -105,3 +107,19 @@ def remover_despesa(request, despesa_id):
     despesa = get_object_or_404(Despesa, id=despesa_id, usuario=request.user)
     despesa.delete()
     return redirect('gestaoFinanceira')
+
+@login_required
+def adicionar_investimento(request, investimento_id):
+    investimento = get_object_or_404(Investimento, id=investimento_id)
+
+    if request.method == 'POST':
+        valor = request.POST.get('valor')
+
+        # Atualizando o valor do investimento
+        investimento.valor += Decimal(valor)  # Supondo que você queira somar o valor
+        investimento.save()
+
+        return redirect('gestaoFinanceira')  # Redireciona de volta para a página principal de gestão financeira
+
+    return redirect('gestaoFinanceira')  # Caso o método não seja POST
+
