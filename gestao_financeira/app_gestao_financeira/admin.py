@@ -4,14 +4,14 @@ from .models import Usuario, PerfilUsuario, CustoFixo, DespesasExtras, Investime
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nome', 'CPF', 'login')
+@admin.register(CustoFixo)
+class CustoFixoAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'valor', 'descricao')
     
 @admin.register(PerfilUsuario)
 class PerfilUsuarioAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'patrimonio_liquido', 'salario', 'perfil', 'imagem')
 
-@admin.register(CustoFixo)
-class CustoFixoAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'valor', 'descricao')
 
 @admin.register(DespesasExtras)
 class DespesasExtrasAdmin(admin.ModelAdmin):

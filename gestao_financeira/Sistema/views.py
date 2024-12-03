@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as login_django
 import re
+from .models import CustoFixo, Despesa, Investimento
 
 def cadastro(request):
     if request.method == 'GET':
@@ -56,5 +57,31 @@ def login(request):
             # Passa a mensagem de erro para o template
             return render(request, 'login.html', {'error': 'CPF ou senha inválidos.'})
         
+@login_required
 def gestaoFinanceira(request):
-    return render(request, 'gestaoFinanceira.html')
+    custos_fixos = CustoFixo.objects.filter(usuario=request.user)
+    despesas = Despesa.objects.filter(usuario=request.user)
+    investimentos = Investimento.objects.all()
+    return render(request, 'gestaoFinanceira.html', {
+        'custos_fixos': custos_fixos,
+        'despesas': despesas,
+        'investimentos': investimentos,
+    })
+
+@login_required
+def adicionar_custo_fixo(request):
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao')
+        valor = request.POST.get('valor')
+        CustoFixo.objects.create(usuario=request.user, descricao=descricao, valor=valor)
+        return redirect('gestaoFinanceira')
+    return render(request, 'adicionar_custo_fixo.html')
+
+@login_required
+def adicionar_despesa(request):
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao')
+        valor = request.POST.get('valor')
+        Despesa.objects.create(usuario=request.user, descricao=descricao, valor=valor)
+        return redirect('gestaoFinanceira')
+    return render(request, 'adicionar_despesa.html')
